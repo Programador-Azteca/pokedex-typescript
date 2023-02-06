@@ -1,16 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Pokemon } from '../../pages/HomePage/HomePage';
 
-function PokemonCard({ pokemon, handleModalOpen }) {
+
+interface PokemonCardProps {
+	pokemon: Pokemon;
+	handleModalOpen: (url: string) => void;
+}
+
+function PokemonCard({ pokemon, handleModalOpen }: PokemonCardProps) {
 	const { name, url } = pokemon;
 
-	const handleClick = (e) => {
+	const handleClick = (e: any) => {
 		e.preventDefault();
-		// hit url
 		handleModalOpen(url);
 	};
 
@@ -25,13 +30,5 @@ function PokemonCard({ pokemon, handleModalOpen }) {
 		</Card>
 	);
 }
-
-PokemonCard.propTypes = {
-	pokemon: PropTypes.shape({
-		name: PropTypes.string.isRequired,
-		url: PropTypes.string.isRequired,
-	}).isRequired,
-	handleModalOpen: PropTypes.func.isRequired,
-};
 
 export default PokemonCard;

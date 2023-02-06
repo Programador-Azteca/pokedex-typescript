@@ -4,7 +4,6 @@ import {
 	ButtonGroup,
 	Grid,
 	Dialog,
-	Slide,
 	DialogContent,
 } from '@mui/material';
 import styled from 'styled-components';
@@ -14,10 +13,15 @@ import {
 	fetchAllPokemons,
 	fetchPokemonByNameOrId,
 	fetchPokemonByURL,
-} from '../../services/pokemon/pokemon';
+} from '../../services/pokemon';
 import PokemonDetail from '../../components/PokemonDetail/PokemonDetail';
 
 const REQUEST_LIMIT = 20;
+
+export interface Pokemon {
+	name: string;
+	url: string;
+}
 
 const HomePageContainer = styled.div`
 	display: inline-block;
@@ -29,11 +33,6 @@ const HomePageContainer = styled.div`
 const SectionContainer = styled.div`
 	margin: 15px 0 15px 0;
 `;
-
-const Transition = React.forwardRef((props, ref) => (
-	// eslint-disable-next-line react/jsx-props-no-spreading
-	<Slide direction="up" ref={ref} {...props} />
-));
 
 function HomePage() {
 	const [loading, setLoading] = useState(true);
@@ -50,7 +49,6 @@ function HomePage() {
 		abilities: [],
 		stats: [],
 		forms: [],
-		sprites: {},
 	});
 
 	const handleSearchClick = async () => {
@@ -66,17 +64,16 @@ function HomePage() {
 					abilities: response.abilities,
 					stats: response.stats,
 					forms: response.forms,
-					sprites: response.sprites,
 				});
 				setModalStatus(true);
-			} catch (error) {
+			} catch (error: any) {
 				console.error(error.message);
 				alert('ERROR: Pokemon no encontrado');
 			}
 		}
 	};
 
-	const handleModalOpen = async (url) => {
+	const handleModalOpen = async (url: string) => {
 		try {
 			const response = await fetchPokemonByURL(url);
 			setSelectedPokemon({
@@ -88,10 +85,9 @@ function HomePage() {
 				abilities: response.abilities,
 				stats: response.stats,
 				forms: response.forms,
-				sprites: response.sprites,
 			});
 			setModalStatus(true);
-		} catch (error) {
+		} catch (error: any) {
 			console.error(error.message);
 			alert('ERROR: Pokemon no encontrado');
 		}
@@ -121,7 +117,7 @@ function HomePage() {
 		await setData(response);
 	};
 
-	const handleOnChangeSearchTerm = (e) => {
+	const handleOnChangeSearchTerm = (e: any) => {
 		e.preventDefault();
 		setSearchTerm(e.target.value);
 	};
@@ -139,6 +135,7 @@ function HomePage() {
 			setLoading(true);
 			const response = await fetchAllPokemons(offset, REQUEST_LIMIT);
 			await setData(response);
+			console.log(response)
 			setLoading(false);
 		};
 
@@ -161,10 +158,11 @@ function HomePage() {
 					/>
 				</SectionContainer>
 				{loading && <SectionContainer>Cargando...</SectionContainer>}
+				{loading && !data && <SectionContainer>¡No se encontraron datos, intenta mas tarde!</SectionContainer>}
 				{!loading && (
 					<Grid container justifyContent="center" spacing={2}>
-						{data.results.map((item) => (
-							<Grid key={`${item.id}-${item.name}`} item>
+						{data.map((item: Pokemon) => (
+							<Grid key={`${item.name}`} item>
 								<PokemonCard pokemon={item} handleModalOpen={handleModalOpen} />
 							</Grid>
 						))}
@@ -188,13 +186,12 @@ function HomePage() {
 			<Dialog
 				className="dialog-container"
 				open={modalStatus}
-				TransitionComponent={Transition}
 				keepMounted
 				onClose={handleCloseModal}
 				aria-describedby="alert-dialog-slide-description"
 			>
 				<DialogContent dividers style={{ width: 350 }}>
-					<PokemonDetail selectedPokemon={selectedPokemon} />
+					<PokemonDetail {...selectedPokemon} />
 				</DialogContent>
 			</Dialog>
 		</>
