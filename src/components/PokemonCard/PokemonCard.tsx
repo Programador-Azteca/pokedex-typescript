@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Pokemon } from '../../pages/HomePage/HomePage';
 
-
 interface PokemonCardProps {
 	pokemon: Pokemon;
 	handleModalOpen: (url: string) => void;

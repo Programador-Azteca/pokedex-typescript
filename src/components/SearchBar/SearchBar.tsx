@@ -1,7 +1,6 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import SearchIcon from '@mui/icons-material/Search';
+import * as Icon from '@mui/icons-material';
 import { Input } from '@mui/material';
 
 interface SearchBarProps {
@@ -28,10 +27,10 @@ function SearchBar({
 				value={searchTerm}
 			/>
 			<IconButton aria-label="clear" onClick={handleSearchClick}>
-				<SearchIcon style={{ fill: 'blue' }} />
+				<Icon.Search style={{ fill: 'blue' }} />
 			</IconButton>
 			<IconButton aria-label="clear" onClick={handleCancelSearch}>
-				<HighlightOffIcon style={{ fill: 'blue' }} />
+				<Icon.Cancel style={{ fill: 'blue' }} />
 			</IconButton>
 		</form>
 	);

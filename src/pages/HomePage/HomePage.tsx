@@ -135,7 +135,6 @@ function HomePage() {
 			setLoading(true);
 			const response = await fetchAllPokemons(offset, REQUEST_LIMIT);
 			await setData(response);
-			console.log(response)
 			setLoading(false);
 		};
 
@@ -158,7 +157,11 @@ function HomePage() {
 					/>
 				</SectionContainer>
 				{loading && <SectionContainer>Cargando...</SectionContainer>}
-				{loading && !data && <SectionContainer>¡No se encontraron datos, intenta mas tarde!</SectionContainer>}
+				{loading && !data && (
+					<SectionContainer>
+						¡No se encontraron datos, intenta mas tarde!
+					</SectionContainer>
+				)}
 				{!loading && (
 					<Grid container justifyContent="center" spacing={2}>
 						{data.map((item: Pokemon) => (

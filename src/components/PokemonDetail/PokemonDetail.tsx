@@ -20,18 +20,19 @@ interface PokemonAbilities {
 }
 
 interface PokemonDetailsProps {
-	id: number,
-	name: string,
-	height: number,
-	weight: number,
-	base_experience: number,
-	forms: Array<PokemonForms>,
-	stats: Array<PokemonStatsArray>,
-	abilities: Array<PokemonAbilities>,
+	id: number;
+	name: string;
+	height: number;
+	weight: number;
+	base_experience: number;
+	forms: Array<PokemonForms>;
+	stats: Array<PokemonStatsArray>;
+	abilities: Array<PokemonAbilities>;
 }
 
 function PokemonDetail(selectedPokemon: PokemonDetailsProps) {
-	const { id, name, height, weight, base_experience, forms, stats, abilities } = selectedPokemon;
+	const { id, name, height, weight, base_experience, forms, stats, abilities } =
+		selectedPokemon;
 	return (
 		<List
 			component="nav"
